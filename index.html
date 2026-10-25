@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ratnamala Jajee | SRE / DevOps</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Ratnamala Jajee — DevOps & Site Reliability Engineer. AWS, EKS, Terraform, GitOps, DevSecOps.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a personal "status page" — header, live-style SLO readouts, then a change log of roles, then the stack. */
+:root {
+  --bg: #f2f4f6;
+  --surface: #ffffff;
+  --ink: #142033;
+  --muted: #56627a;
+  --line: #d8dee7;
+  --accent: #0b6f78;
+  --accent-soft: #dceff0;
+  --ok: #1d8a4f;
+  --warn: #b26a00;
+  --display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1520; --surface: #151f2e; --ink: #e6ecf3; --muted: #93a1b8; --line: #263347;
+    --accent: #4cc3cc; --accent-soft: #143238; --ok: #4fcf88; --warn: #f0a83a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1520; --surface: #151f2e; --ink: #e6ecf3; --muted: #93a1b8; --line: #263347;
+  --accent: #4cc3cc; --accent-soft: #143238; --ok: #4fcf88; --warn: #f0a83a; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 400 1rem/1.6 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1040px; margin: 0 auto; padding-block: 3rem 4rem; display: grid; gap: 4rem; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+.label {
+  font: 500 .72rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+}
+
+/* Header */
+header { display: grid; gap: 1.5rem; }
+.status-line { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: center; font: 500 .8rem/1.4 var(--mono); color: var(--muted); }
+.pill { display: inline-flex; align-items: center; gap: .5rem; padding: .3rem .7rem; border-radius: 999px; background: var(--accent-soft); color: var(--ink); }
+.dot { width: .55rem; height: .55rem; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 0 var(--ok); animation: pulse 2.4s ease-out infinite; }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ok) 60%, transparent); } 100% { box-shadow: 0 0 0 .6rem transparent; } }
+h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); font-weight: 800; font-stretch: 112%; line-height: .95; letter-spacing: -.02em; }
+.role-big { margin: 0; font: 700 clamp(1.5rem, 4.2vw, 2.4rem)/1.1 var(--display); font-stretch: 100%; color: var(--ink); }
+.role-big::before { content: "$ "; font-family: var(--mono); color: var(--accent); font-weight: 500; }
+.practice { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.card { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 1.5rem; display: grid; gap: .9rem; align-content: start; min-width: 0; }
+.card h3 { font-size: 1.35rem; font-weight: 700; }
+.card ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .45rem; }
+.card li::marker { color: var(--accent); content: "› "; font-family: var(--mono); }
+.role { font: 600 clamp(1.05rem, 2.4vw, 1.3rem)/1.35 var(--display); font-stretch: 90%; color: var(--accent); margin: 0; }
+.summary { max-width: 62ch; margin: 0; font-size: 1.08rem; color: var(--ink); }
+.contact { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
+.btn {
+  display: inline-flex; align-items: center; gap: .5rem; padding: .6rem 1rem; border-radius: 8px;
+  font: 500 .9rem/1 var(--body); text-decoration: none; cursor: pointer; border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink);
+}
+.btn.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.btn:hover { border-color: var(--accent); }
+.email { font: 400 .9rem/1 var(--mono); color: var(--muted); user-select: all; }
+
+/* SLO readouts */
+.readouts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 12px; background: var(--surface); overflow: hidden; }
+.readout { padding: 1.4rem 1.4rem 1.3rem; display: grid; gap: .45rem; align-content: start; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.readout:nth-child(3n) { border-right: 0; }
+.readout:nth-last-child(-n+3) { border-bottom: 0; }
+.metric { font: 700 2.4rem/1 var(--display); font-stretch: 105%; font-variant-numeric: tabular-nums; }
+.metric small { font-size: 1.1rem; font-weight: 600; color: var(--muted); }
+.readout p { margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.45; }
+.bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.bar span { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
+
+/* Section heads */
+section { display: grid; gap: 1.5rem; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--line); padding-bottom: .75rem; }
+h2 { font-size: 1.6rem; font-weight: 700; font-stretch: 100%; }
+
+/* Change log */
+.log { display: grid; gap: 0; }
+.entry { display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 1.5rem; padding-block: 1.5rem; border-bottom: 1px dashed var(--line); }
+.entry:last-child { border-bottom: 0; }
+.when { font: 500 .85rem/1.5 var(--mono); color: var(--muted); }
+.when .tag { display: inline-block; margin-top: .4rem; padding: .15rem .5rem; border-radius: 4px; background: var(--accent-soft); color: var(--accent); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; }
+.entry h3 { font-size: 1.3rem; font-weight: 700; }
+.entry .org { color: var(--muted); margin: .15rem 0 .9rem; font-size: .95rem; }
+.entry ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .5rem; max-width: 70ch; }
+.entry li::marker { color: var(--accent); content: "› "; font-family: var(--mono); }
+strong { font-weight: 600; }
+
+/* Stack */
+.stack { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 2.5rem; }
+.group { display: grid; gap: .6rem; min-width: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.chip { font: 400 .82rem/1 var(--mono); padding: .4rem .6rem; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+
+/* Pipeline diagram */
+.pipe { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 1.25rem; }
+.pipe ol { list-style: none; margin: 0; padding: 0; display: flex; gap: .5rem; min-width: 760px; }
+.pipe li { flex: 1; display: grid; gap: .3rem; padding: .8rem .9rem; border-radius: 8px; background: var(--bg); position: relative; }
+.pipe li:not(:last-child)::after { content: "→"; position: absolute; right: -.62rem; top: 50%; transform: translateY(-50%); color: var(--accent); font: 600 .9rem var(--mono); z-index: 1; }
+.pipe b { font: 600 .9rem/1.2 var(--display); }
+.pipe span { font: 400 .75rem/1.35 var(--mono); color: var(--muted); }
+
+/* Footer grid */
+.cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
+.cols ul { margin: .75rem 0 0; padding: 0; list-style: none; display: grid; gap: .6rem; }
+.cols li { padding-left: 1rem; position: relative; }
+.cols li::before { content: ""; position: absolute; left: 0; top: .62em; width: .4rem; height: .4rem; border-radius: 50%; background: var(--accent); }
+.cgpa { font-variant-numeric: tabular-nums; font-family: var(--mono); color: var(--accent); }
+footer { color: var(--muted); font-size: .85rem; border-top: 1px solid var(--line); padding-top: 1.25rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; }
+
+@media (max-width: 760px) {
+  .readouts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .readout:nth-child(n) { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .readout:nth-child(2n) { border-right: 0; }
+  .readout:nth-last-child(-n+2) { border-bottom: 0; }
+  .entry { grid-template-columns: minmax(0, 1fr); gap: .5rem; }
+  .stack, .cols, .practice { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 420px) {
+  .metric { font-size: 2rem; }
+  .readout { padding: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) { .dot { animation: none; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="status-line">
+      <span class="pill"><span class="dot" aria-hidden="true"></span>Open to opportunities</span>
+      <span>Hyderabad, India</span>
+      <span>5 yrs · AWS · EKS · Terraform</span>
+    </div>
+    <h1>Ratnamala<br>Jajee</h1>
+    <p class="role-big">SRE / DevOps Engineer</p>
+    <p class="role">Site Reliability · DevOps · AWS Cloud · Kubernetes (EKS)</p>
+    <p class="summary">I build and run production AWS platforms on Kubernetes (EKS), Terraform, GitOps and DevSecOps. I have delivered DevOps transformations for more than ten enterprise customers, taking platforms to 99.9% availability while cutting cloud spend by 30%.</p>
+    <div class="contact">
+      <a class="btn primary" href="https://www.linkedin.com/in/ratnamalajajee" target="_blank" rel="noopener">LinkedIn profile</a>
+      <button class="btn" id="copy-email" type="button">Copy email</button>
+      <span class="email" id="email">ratnamalajajee2302@gmail.com</span>
+    </div>
+  </header>
+
+  <section aria-labelledby="what-h">
+    <div class="sec-head"><h2 id="what-h">What I do</h2><span class="label">SRE + DevOps</span></div>
+    <div class="practice">
+      <div class="card">
+        <span class="label">Site Reliability Engineering</span>
+        <h3>Keep production up, fast and recoverable</h3>
+        <ul>
+          <li>99.9% availability on production AWS and EKS platforms</li>
+          <li>Monitoring and alerting with CloudWatch, Prometheus, Grafana and Datadog</li>
+          <li>Incident management, on-call SLA support and lower MTTR with Komodor</li>
+          <li>Disaster Recovery with defined RPO/RTO targets and regular failover tests</li>
+          <li>PostgreSQL high availability and KEDA event-driven autoscaling</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="label">DevOps &amp; Platform Engineering</span>
+        <h3>Ship safely and automate everything</h3>
+        <ul>
+          <li>CI/CD with AWS CodeBuild, Jenkins, GitLab CI and Helmfile</li>
+          <li>Infrastructure as Code with Terraform and Atlantis; GitOps with ArgoCD</li>
+          <li>DevSecOps: Trivy, SonarQube, IAM least privilege, KMS, Secrets Manager</li>
+          <li>Cloud migration of on-prem apps to AWS and containerization with Docker</li>
+          <li>FinOps with Kubecost: 30% lower cloud cost</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="slo-h">
+    <div class="sec-head"><h2 id="slo-h">Impact</h2><span class="label">Measured outcomes</span></div>
+    <div class="readouts">
+      <div class="readout">
+        <span class="label">Availability</span>
+        <div class="metric">99.9<small>%</small></div>
+        <div class="bar"><span style="width:99.9%"></span></div>
+        <p>Platform uptime across production AWS workloads</p>
+      </div>
+      <div class="readout">
+        <span class="label">Cloud cost</span>
+        <div class="metric">−30<small>%</small></div>
+        <div class="bar"><span style="width:30%"></span></div>
+        <p>Savings from Kubecost visibility and right-sizing</p>
+      </div>
+      <div class="readout">
+        <span class="label">Security Hub</span>
+        <div class="metric">50→73<small>%</small></div>
+        <div class="bar"><span style="width:73%"></span></div>
+        <p>AWS compliance score raised through DevSecOps controls</p>
+      </div>
+      <div class="readout">
+        <span class="label">Security incidents</span>
+        <div class="metric">−70<small>%</small></div>
+        <div class="bar"><span style="width:70%"></span></div>
+        <p>Fewer incidents after proactive pipeline and IAM controls</p>
+      </div>
+      <div class="readout">
+        <span class="label">Incident response</span>
+        <div class="metric">−35<small>%</small></div>
+        <div class="bar"><span style="width:35%"></span></div>
+        <p>Faster response with CloudWatch, Prometheus and Grafana alerting</p>
+      </div>
+      <div class="readout">
+        <span class="label">Customers</span>
+        <div class="metric">10<small>+</small></div>
+        <div class="bar"><span style="width:100%"></span></div>
+        <p>Enterprise DevOps implementations delivered end to end</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="exp-h">
+    <div class="sec-head"><h2 id="exp-h">Experience</h2><span class="label">Sep 2021 – present</span></div>
+    <div class="log">
+      <article class="entry">
+        <div class="when">Jan 2026 – Present<br><span class="tag">Project: NextGen</span></div>
+        <div>
+          <h3>DevOps &amp; SRE Engineer</h3>
+          <p class="org">Zyter</p>
+          <ul>
+            <li>Standardized CI/CD, deploying applications and provisioning infrastructure through <strong>AWS CodeBuild, Terraform and Helmfile</strong>.</li>
+            <li>Automated pull request validation and approval workflows.</li>
+            <li>Built DevSecOps controls into every pipeline: Trivy and SonarQube scanning, least-privilege IAM, Secrets Manager and KMS encryption.</li>
+            <li>Raised <strong>AWS Security Hub compliance from 50% to 73%</strong> and cut security incidents by <strong>70%</strong>.</li>
+            <li>Containerized legacy applications with Docker and moved them to Kubernetes, improving resource utilization by <strong>40%</strong>.</li>
+            <li>Rolled out <strong>Kubecost</strong> for real-time Kubernetes cost visibility and right-sizing, saving <strong>30%</strong> on cloud spend.</li>
+            <li>Put <strong>Cloudflare</strong> (WAF, DDoS protection, DNS) in front of customer environments to secure and speed up ingress.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="entry">
+        <div class="when">Sep 2021 – Dec 2025<br><span class="tag">Project: Zyter</span></div>
+        <div>
+          <h3>Software Engineer, DevOps &amp; SRE</h3>
+          <p class="org">Infinite Computer Solutions</p>
+          <ul>
+            <li>Delivered end-to-end DevOps for <strong>10+ customers</strong>, migrating on-prem applications to AWS (lift-and-shift) across dev, staging and production.</li>
+            <li>Managed multiple <strong>EKS clusters</strong> and namespaces with Terraform and Helm; automated deployments with <strong>Atlantis and ArgoCD</strong> GitOps.</li>
+            <li>Integrated Docker builds into Jenkins and built Kafka-based event-driven integrations with <strong>KEDA</strong> autoscaling.</li>
+            <li>Built CloudWatch, Prometheus and Grafana monitoring and alerting, cutting <strong>incident response time by 35%</strong>.</li>
+            <li>Used <strong>Komodor</strong> for EKS observability and guided troubleshooting, speeding up root-cause analysis and reducing MTTR.</li>
+            <li>Designed <strong>Disaster Recovery</strong> for production AWS workloads with defined RPO/RTO targets and regular failover tests; ran PostgreSQL HA and on-call SLA support.</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="flow-h">
+    <div class="sec-head"><h2 id="flow-h">How I ship</h2><span class="label">Commit to production</span></div>
+    <div class="pipe">
+      <ol>
+        <li><b>Pull request</b><span>automated validation &amp; approval</span></li>
+        <li><b>Scan</b><span>Trivy · SonarQube</span></li>
+        <li><b>Build</b><span>Docker · CodeBuild · Jenkins → ECR</span></li>
+        <li><b>Provision</b><span>Terraform · Atlantis</span></li>
+        <li><b>Deploy</b><span>Helmfile · ArgoCD → EKS</span></li>
+        <li><b>Observe</b><span>Prometheus · Grafana · Datadog · Kubecost</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section aria-labelledby="stack-h">
+    <div class="sec-head"><h2 id="stack-h">Toolchain</h2><span class="label">Daily drivers</span></div>
+    <div class="stack">
+      <div class="group"><span class="label">Cloud</span><div class="chips"><span class="chip">AWS</span><span class="chip">Azure</span></div></div>
+      <div class="group"><span class="label">Containers</span><div class="chips"><span class="chip">Docker</span><span class="chip">Kubernetes (EKS)</span><span class="chip">Helm</span><span class="chip">Helmfile</span><span class="chip">KEDA</span><span class="chip">ECR</span></div></div>
+      <div class="group"><span class="label">Infrastructure as Code</span><div class="chips"><span class="chip">Terraform</span><span class="chip">CloudFormation</span><span class="chip">Atlantis</span></div></div>
+      <div class="group"><span class="label">CI/CD &amp; GitOps</span><div class="chips"><span class="chip">Jenkins</span><span class="chip">GitLab CI</span><span class="chip">Bitbucket</span><span class="chip">CodeBuild</span><span class="chip">CodePipeline</span><span class="chip">ArgoCD</span></div></div>
+      <div class="group"><span class="label">Observability</span><div class="chips"><span class="chip">CloudWatch</span><span class="chip">Prometheus</span><span class="chip">Grafana</span><span class="chip">Datadog</span><span class="chip">Fluent Bit</span><span class="chip">OpenSearch</span></div></div>
+      <div class="group"><span class="label">DevSecOps</span><div class="chips"><span class="chip">Trivy</span><span class="chip">SonarQube</span><span class="chip">IAM</span><span class="chip">KMS</span><span class="chip">Secrets Manager</span><span class="chip">Security Hub</span><span class="chip">Cloudflare WAF</span></div></div>
+      <div class="group"><span class="label">AIOps &amp; FinOps</span><div class="chips"><span class="chip">Komodor</span><span class="chip">Kubecost</span></div></div>
+      <div class="group"><span class="label">Databases &amp; scripting</span><div class="chips"><span class="chip">PostgreSQL</span><span class="chip">MSSQL</span><span class="chip">RDS</span><span class="chip">Liquibase</span><span class="chip">Python</span><span class="chip">Shell</span><span class="chip">Groovy</span><span class="chip">YAML</span></div></div>
+    </div>
+  </section>
+
+  <section class="cols" aria-label="Certifications, awards and education">
+    <div>
+      <span class="label">Certifications</span>
+      <ul>
+        <li>AWS Certified Cloud Practitioner</li>
+        <li>Terraform, Docker &amp; Kubernetes hands-on training</li>
+      </ul>
+    </div>
+    <div>
+      <span class="label">Recognition</span>
+      <ul>
+        <li>Outstanding Performer Award (×2)</li>
+        <li>Key Member &amp; Good Performer Award</li>
+        <li>Customer Onboarding Top Performer</li>
+      </ul>
+    </div>
+    <div>
+      <span class="label">Education</span>
+      <ul>
+        <li>B.E., Basavakalyan Engineering College, Karnataka<br><span class="cgpa">2017–2021 · CGPA 9.05</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <span>Ratnamala Jajee · DevOps &amp; SRE</span>
+    <span>linkedin.com/in/ratnamalajajee</span>
+  </footer>
+</div>
+
+<script>
+document.getElementById('copy-email').addEventListener('click', function () {
+  var btn = this, text = document.getElementById('email').textContent;
+  function done(msg) { btn.textContent = msg; setTimeout(function () { btn.textContent = 'Copy email'; }, 1800); }
+  function selectIt() {
+    var r = document.createRange(); r.selectNodeContents(document.getElementById('email'));
+    var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); done('Selected, press Ctrl+C');
+  }
+  try {
+    navigator.clipboard.writeText(text).then(function () { done('Copied'); }, selectIt);
+  } catch (e) { selectIt(); }
+});
+</script>
+</body>
+</html>
